@@ -1,0 +1,9 @@
+.salir{
+  background-color: #F05F44;
+  border-color: #f05F44;
+}
+
+.salir:hover{
+  background-color: #EE4E08;
+  border-radius: #EE4E08;
+}

@@ -1,0 +1,40 @@
+<div class="container" (keydown)="onTeclado($event)">
+  <div class="row" style="width: 100%;">
+    <div class="col-lg-6 offset-lg-3">
+      <div class="card text-center load" style="padding: 20px">
+        <h3>Login</h3>
+        <br>
+        <form [formGroup]="login" (ngSubmit)="log()">
+          <div class="form-group" style="text-align: start;">
+            <input type="text" class="form-control text-center" placeholder="Usuario" name="usuario"
+              formControlName="usuario">
+            <span class="text-danger"
+              *ngIf="login.get('usuario')?.hasError('required') && login.get('usuario')?.touched">
+              El usuario <strong>es necesario</strong>
+            </span>
+          </div>
+          <div class="form-group" style="text-align: start;">
+            <input type="password" class="form-control text-center mt-3" placeholder="Contraseña"
+              formControlName="password">
+            <span class="text-danger" style="margin-left: 5px;"
+              *ngIf="login.get('password')?.touched && login.get('password')?.hasError('required')">
+              La contraseña <strong>es necesaria</strong>
+            </span>
+          </div>
+          <div *ngIf="!loading" class="form-group mt-3">
+            <button routerLink="/inicio" class="btn btn-secondary" style="margin-right: 100px;">Volver</button>
+            <button class="btn btn-primary btn-login" [disabled]="login.invalid" type="submit">Ingresar</button>
+          </div>
+          <div *ngIf="!loading" class="form-group mt-3">
+            <a routerLink="/inicio/register" style="color: #F05F44; cursor: pointer;">Crear Cuenta</a>
+          </div>
+          <div *ngIf="loading" class="form-group mt-3">
+            <div class="d-flex justify-content-center" style="padding: 20px;">
+              <app-loading></app-loading>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
