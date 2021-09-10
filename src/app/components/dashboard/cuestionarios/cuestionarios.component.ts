@@ -1,3 +1,4 @@
+import { LoginService } from './../../../services/login.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CuestionariosComponent implements OnInit {
 
-  constructor() { }
+  nombreUsuario:string | null;
+
+  constructor(private _loginService: LoginService) {
+    this.nombreUsuario="";
+   }
 
   ngOnInit(): void {
+    this.getNombreUsuario();
+  }
+
+  getNombreUsuario(): void{
+    this.nombreUsuario = this._loginService.getNombreUsuario();
   }
 
 }

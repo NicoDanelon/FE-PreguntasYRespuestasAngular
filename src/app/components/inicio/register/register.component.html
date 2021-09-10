@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" (keydown)="onTeclado($event)">
   <div class="row" style="width: 100%;">
     <div class="col-lg-6 offset-lg-3">
       <div class="card text-center" style="padding: 20px;">
@@ -19,9 +19,14 @@
             <span *ngIf="register.get('confirmPassword')?.hasError('required') && register.get('confirmPassword')?.touched" class="text-danger"><strong>Repite la contraseña</strong> por favor.</span>
             <span *ngIf="register.hasError('notSame')" class="text-danger"><strong>Contraseñas distintas.</strong></span>
           </div>
-          <div class="form-group mt-3">
+          <div class="form-group mt-3" *ngIf="!loading">
             <button class="btn btn-secondary" style="margin-right: 100px;" routerLink="/inicio/login">Volver</button>
             <button type="submit" [disabled]="register.invalid" class="btn btn-primary btn-register">Registrarse</button>
+          </div>
+          <div *ngIf="loading" class="form-group mt-3">
+            <div class="d-flex justify-content-center" style="padding: 20px;">
+              <app-loading></app-loading>
+            </div>
           </div>
         </form>
       </div>

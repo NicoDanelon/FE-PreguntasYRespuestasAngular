@@ -7,6 +7,6 @@
   <ul class="nav nav-pills">
     <li class="nav-item"><a routerLink="/dashboard" class="nav-link">Cuestionarios</a></li>
     <li class="nav-item"><a routerLink="/dashboard/cambiarPassword" class="nav-link">Cambiar Pass</a></li>
-    <li class="nav-item" routerLink="/inicio" routerLinkActive="router-link-active"><a class="nav-link active salir">Salir</a></li>
+    <li class="nav-item" (click)="logOut();" routerLinkActive="router-link-active"><a class="nav-link active salir">Salir</a></li>
   </ul>
 </header>
