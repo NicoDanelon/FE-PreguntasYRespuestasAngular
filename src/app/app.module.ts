@@ -6,7 +6,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+//Interceptors
+import { AddTokenInterceptor } from '../app/helpers/add-token.interceptor';
 
 //Componentes
 import { AppComponent } from './app.component';
@@ -20,6 +23,10 @@ import { CuestionariosComponent } from './components/dashboard/cuestionarios/cue
 import { CambiarPasswordComponent } from './components/dashboard/cambiar-password/cambiar-password.component';
 import { NavbarComponent } from './components/dashboard/navbar/navbar.component';
 import { LoadingComponent } from './shared/loading/loading.component';
+import { NuevoCuestionarioComponent } from './components/dashboard/cuestionarios/nuevo-cuestionario/nuevo-cuestionario.component';
+import { PasoUnoComponent } from './components/dashboard/cuestionarios/nuevo-cuestionario/paso-uno/paso-uno.component';
+import { PasoDosComponent } from './components/dashboard/cuestionarios/nuevo-cuestionario/paso-dos/paso-dos.component';
+import { NuevaPreguntaComponent } from './components/dashboard/cuestionarios/nuevo-cuestionario/paso-dos/nueva-pregunta/nueva-pregunta.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +39,11 @@ import { LoadingComponent } from './shared/loading/loading.component';
     CuestionariosComponent,
     CambiarPasswordComponent,
     NavbarComponent,
-    LoadingComponent
+    LoadingComponent,
+    NuevoCuestionarioComponent,
+    PasoUnoComponent,
+    PasoDosComponent,
+    NuevaPreguntaComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +53,7 @@ import { LoadingComponent } from './shared/loading/loading.component';
     BrowserAnimationsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
