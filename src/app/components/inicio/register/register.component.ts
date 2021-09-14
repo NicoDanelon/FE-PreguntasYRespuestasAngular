@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Usuario } from '../../../models/usuario';
 import { UsuarioService } from '../../../services/usuario.service';
@@ -10,10 +11,11 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
 
   register: FormGroup;
   loading=false;
+  subscriptionRegister: Subscription = new Subscription();
 
   constructor(private fb: FormBuilder,
               private _usuarioService: UsuarioService,
@@ -29,13 +31,17 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void{
+    this.subscriptionRegister.unsubscribe();
+  }
+
   registrarUsuario(){
     this.loading = true;
     const usuario: Usuario = {
       nombreUsuario: this.register.value.usuario,
       password: this.register.value.password
     }
-    this._usuarioService.saveUser(usuario).subscribe(data => {
+    this.subscriptionRegister = this._usuarioService.saveUser(usuario).subscribe(data => {
       this.loading=false;
       this.toastr.success('El usuario ' + usuario.nombreUsuario + ' fue registrado con exito.' ,'Usuario Registrado');
       this.router.navigate(['/inicio/login']);

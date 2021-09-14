@@ -1,5 +1,6 @@
+import { Subscription } from 'rxjs';
 import { LoginService } from './../../../services/login.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import {Usuario} from '../../../models/usuario'
@@ -11,10 +12,11 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   login: FormGroup;
   loading=false;
+  subscriptionLogin: Subscription = new Subscription();
 
   constructor(private fb: FormBuilder,
               private toastr: ToastrService,
@@ -27,6 +29,10 @@ export class LoginComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void{
+    this.subscriptionLogin.unsubscribe();
   }
 
   onTeclado(_evento:any){
@@ -43,7 +49,7 @@ export class LoginComponent implements OnInit {
       password: this.login.value.password
     }
 
-    this._loginService.login(usuario).subscribe(data=>{
+    this.subscriptionLogin = this._loginService.login(usuario).subscribe(data=>{
       this._loginService.setLocalStorage(data.token);
       this.loading = false;
       this.router.navigate(['/dashboard']);

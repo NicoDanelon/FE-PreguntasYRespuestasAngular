@@ -1,2 +1,42 @@
-<h6>{{tituloCuestionario}}</h6>
-<h6>{{descripcionCuestionario}}</h6>
+<div class="row">
+  <div class="col-lg-6">
+    <h3 class="text-center">
+      Listado de Preguntas
+    </h3>
+    <hr>
+    <div *ngFor="let pregunta of listPreguntas; let i = index" class="card mb-2">
+      <div class="card-header d-flex justify-content-center align-items-center">
+        <div style="width: 70%">
+          <h5>{{pregunta.descripcion}}</h5>
+        </div>
+        <div style="width: 30%;" class="float-end">
+          <button (click)="pregunta.hide =!pregunta.hide" *ngIf="pregunta.hide" class="btn btn-primary btn-sm" style="margin: 4px">Mostrar</button>
+          <button (click)="pregunta.hide =!pregunta.hide" *ngIf="!pregunta.hide" class="btn btn-primary btn-sm" style="margin: 4px">Ocultar</button>
+          <button (click)="eliminarPregunta(i)" class="btn btn-danger btn-sm" style="margin: 4px">Eliminar</button>
+        </div>
+      </div>
+      <div class="card-body" [hidden]="pregunta.hide" >
+        <ul class="list-group">
+          <li *ngFor="let respuesta of pregunta.listRespuestas" [ngClass]="{'list-group-item-success': respuesta.esCorrecta == true}" class="list-group-item">
+            {{respuesta.descripcion}}
+            <span class="material-icons float-end" *ngIf="respuesta.esCorrecta==true" >check_circle</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div *ngIf="listPreguntas.length == 0" >
+      <h6>No hay pregutnas para mostrar</h6>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <h3 class="text-center">
+      Nueva Pregunta
+    </h3>
+    <hr>
+    <app-nueva-pregunta (enviarPregunta)="guardarPregunta($event)"></app-nueva-pregunta>
+  </div>
+</div>
+<div *ngIf="loading" class="d-flex justify-content-center" style="padding: 20px;">
+  <app-loading></app-loading>
+</div>
+<button (click)="guardarCuestionario()" class="btn btn-primary btn-lg btnFinalizar" [disabled]="listPreguntas.length == 0" >Finalizar Cuestionario</button>
