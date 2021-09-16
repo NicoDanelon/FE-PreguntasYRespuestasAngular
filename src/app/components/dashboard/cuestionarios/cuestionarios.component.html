@@ -7,3 +7,22 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="loading" class="form-group mt-3" style="margin-top: 60px;">
+  <div class="d-flex justify-content-center" style="padding: 20px;">
+    <app-loading></app-loading>
+  </div>
+</div>
+
+<div *ngIf="!loading" class="card-columns" style="margin-top: 60px;">
+  <div class="card bg-light" *ngFor="let cuestionario of listCuestionarios" >
+    <div class="card-body text-center">
+      <h4 class="card-title">{{cuestionario.nombre}}</h4>
+      <p class="card-text">{{cuestionario.descripcion}}</p>
+      <button class="btn btn-danger  radius" (click)="eliminarCuestionario(cuestionario.id)" >ELIMINAR</button>
+      <button class="btn btn-success  radius" [routerLink]="['/dashboard/verCuestionario/' + cuestionario.id]" routerLinkActive="router-link-active">VER</button>
+    </div>
+  </div>
+</div>
+
+<h3 *ngIf="listCuestionarios.length == 0 && !loading" class="text-center" >No hay cuestionarios para mostrar</h3>

@@ -1,3 +1,8 @@
+import { RespuestaCuestionarioComponent } from './components/inicio/list-cuestionarios/respuesta-cuestionario/respuesta-cuestionario.component';
+import { PreguntaComponent } from './components/inicio/list-cuestionarios/pregunta/pregunta.component';
+import { IngresarNombreComponent } from './components/inicio/list-cuestionarios/ingresar-nombre/ingresar-nombre.component';
+import { ListCuestionariosComponent } from './components/inicio/list-cuestionarios/list-cuestionarios.component';
+import { CuestionarioComponent } from './components/dashboard/cuestionarios/cuestionario/cuestionario.component';
 import { BienvenidaComponent } from './components/inicio/bienvenida/bienvenida.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -17,10 +22,15 @@ const routes: Routes = [
     {path: '', component: BienvenidaComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'login', component: LoginComponent},
+    {path: 'listCuestionarios', component: ListCuestionariosComponent},
+    {path: 'ingresarNombre', component: IngresarNombreComponent},
+    {path: 'pregunta', component: PreguntaComponent},
+    {path: 'respuestaCuestionario', component: RespuestaCuestionarioComponent}
   ]},
   {path: 'dashboard', component: DashboardComponent, children: [
     {path: '', component: CuestionariosComponent},
     {path: 'cambiarPassword', component: CambiarPasswordComponent},
+    {path: 'verCuestionario/:id', component: CuestionarioComponent},
     {path: 'nuevoCuestionario', component: NuevoCuestionarioComponent, children:[
       {path: 'pasoUno', component: PasoUnoComponent},
       {path: 'pasoDos', component: PasoDosComponent}

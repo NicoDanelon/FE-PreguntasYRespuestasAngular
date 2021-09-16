@@ -4,3 +4,18 @@
   align-items: center;
   min-height: 84vh;
 }
+
+.centrar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centrar-full-screen{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+
