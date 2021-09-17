@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CuestionarioService {
+
   myAppUrl: string;
   myApiUrl: string;
   tituloCuestionario: string ;

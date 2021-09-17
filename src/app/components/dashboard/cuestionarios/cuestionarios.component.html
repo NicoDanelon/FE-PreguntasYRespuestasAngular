@@ -15,12 +15,19 @@
 </div>
 
 <div *ngIf="!loading" class="card-columns" style="margin-top: 60px;">
-  <div class="card bg-light" *ngFor="let cuestionario of listCuestionarios" >
-    <div class="card-body text-center">
-      <h4 class="card-title">{{cuestionario.nombre}}</h4>
-      <p class="card-text">{{cuestionario.descripcion}}</p>
-      <button class="btn btn-danger  radius" (click)="eliminarCuestionario(cuestionario.id)" >ELIMINAR</button>
-      <button class="btn btn-success  radius" [routerLink]="['/dashboard/verCuestionario/' + cuestionario.id]" routerLinkActive="router-link-active">VER</button>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let cuestionario of listCuestionarios" >
+      <div class="card bg-light">
+        <div class="card-body text-center">
+          <h4 class="card-title">{{cuestionario.nombre}}</h4>
+          <p class="card-text">{{cuestionario.descripcion}}</p>
+          <div class="row">
+            <button class="btn btn-danger  radius" (click)="eliminarCuestionario(cuestionario.id)" >ELIMINAR</button>
+            <button routerLink="/dashboard/estadisticas/{{cuestionario.id}}" routerLinkActive="router-link-active"  class="btn btn-info radius">EST</button>
+            <button class="btn btn-success  radius" routerLink="/dashboard/verCuestionario/{{cuestionario.id}}">VER</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

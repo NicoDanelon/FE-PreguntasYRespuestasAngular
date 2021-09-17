@@ -1,0 +1,25 @@
+<div class="text-center">
+  <app-loading *ngIf="loading" class="centrar-full-screen"></app-loading>
+</div>
+<table *ngIf="!loading && ListRespuestaCuestionario.length > 0;" class="table sm table-over text-center">
+  <thead>
+    <th>Participante</th>
+    <th>Fecha</th>
+    <th>Hora</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cuestionarioRespuesta of ListRespuestaCuestionario" >
+      <td>{{cuestionarioRespuesta.nombreParticipante | uppercase}}</td>
+      <td>{{cuestionarioRespuesta.fecha | date: 'dd/MM/yyyy' }}</td>
+      <td>{{cuestionarioRespuesta.fecha | date: 'HH:mm' }}</td>
+      <td>
+        <div class="float-right">
+          <span (click)="pasarNombre(cuestionarioRespuesta.nombreParticipante);" routerLink="/dashboard/detalleRespuesta/{{cuestionarioRespuesta.id}}" class="material-icons search-icon">search</span>
+          <span (click)="eliminarRespuestaCuestionario(cuestionarioRespuesta.id);" class="material-icons text-danger" style="cursor:pointer;">delete</span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3 class="centrar-full-screen" *ngIf="ListRespuestaCuestionario.length == 0 && !loading" >Nadie ha resuelto tu cuestionario</h3>

@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { RespuestaCuestionarioService } from './../../../../services/respuesta-cuestionario.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -12,7 +13,8 @@ export class IngresarNombreComponent implements OnInit {
   nombreParticipante = '';
 
   constructor(private router: Router,
-              private _respuestaCuestionarioService: RespuestaCuestionarioService) { }
+              private _respuestaCuestionarioService: RespuestaCuestionarioService,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     if(this._respuestaCuestionarioService.idCuestionario == null){
@@ -21,8 +23,12 @@ export class IngresarNombreComponent implements OnInit {
   }
 
   siguiente(): void {
-    this._respuestaCuestionarioService.nombreParticipante;
-    this.router.navigate(['/inicio/pregunta']);
+    this._respuestaCuestionarioService.nombreParticipante = this.nombreParticipante;
+    if(this._respuestaCuestionarioService.nombreParticipante == null || '' || undefined){
+      this.toastr.error('Ocurrio un error cargando tu Nombre', 'Error')
+    }else{
+      this.router.navigate(['/inicio/pregunta']);
+    }
   }
 
 }

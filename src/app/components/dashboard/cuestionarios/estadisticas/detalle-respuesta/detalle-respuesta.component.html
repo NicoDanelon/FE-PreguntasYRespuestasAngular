@@ -1,0 +1,26 @@
+<div class="text-center">
+  <app-loading *ngIf="loading" class="centrar-full-screen" ></app-loading>
+</div>
+<div *ngIf="cuestionario != null" class="text-center">
+  <h4 class="card-title">{{cuestionario.nombre | uppercase}}</h4>
+  <p class="card-text">{{cuestionario.descripcion | uppercase}}</p>
+  <hr>
+  <h5>Resuelto por: {{nombreParticipante}}</h5>
+  <hr>
+  <div *ngFor="let pregunta of cuestionario.listPreguntas; let i = index" style="margin-bottom: 10px;" >
+    <div class="card-header">
+      <b>{{pregunta.descripcion}}</b>
+    </div>
+    <div class="list-group" *ngFor="let respuesta of pregunta.listRespuestas" >
+      <li [ngClass]="{'list-group-item-success': respuesta.esCorrecta == true,
+                      'list-group-item-danger': respuesta.esCorrecta == false && respuestas[i].respuestaId == respuesta.id }" class="list-group-item">
+        {{ respuesta.descripcion }}
+        <span *ngIf="respuesta.esCorrecta == true" class="material-icons correcta float-end">check_circle</span>
+        <span *ngIf="respuesta.esCorrecta == false && respuestas[i].respuestaId == respuesta.id " class="material-icons incorrecta float-end">highlight_off</span>
+      </li>
+    </div>
+  </div>
+    <div class="col-lg-4 offset-4">
+      <button routerLink="/dashboard/estadisticas/{{ cuestionario.id }}" class="btn btn-primary btn-lg" style="width: 100%;">Volver</button>
+    </div>
+</div>

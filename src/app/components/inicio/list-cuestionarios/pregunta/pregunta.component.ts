@@ -1,3 +1,5 @@
+import { RespuestaCuestionario } from './../../../../models/respuestaCuestionario';
+import { RespuestaCuestionarioDetalle } from './../../../../models/RespuestaCuestionarioDetalle';
 import { Pregunta } from './../../../../models/pregunta';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -21,6 +23,8 @@ export class PreguntaComponent implements OnInit, OnDestroy {
   opcionSeleccionada: any;
   index = 0;
   idRespuestaSeleccionada: any;
+  listRespuestaDetalle: RespuestaCuestionarioDetalle[] = [];
+  subscriptionEnviarRespuestas: Subscription = new Subscription();
 
   constructor(private _respuestaCuestionarioService: RespuestaCuestionarioService,
               private _cuestionarioService: CuestionarioService,
@@ -41,6 +45,7 @@ export class PreguntaComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptionCuestionario.unsubscribe();
+    this.subscriptionEnviarRespuestas.unsubscribe();
   }
 
   getCuestionario(): void{
@@ -52,6 +57,7 @@ export class PreguntaComponent implements OnInit, OnDestroy {
     },error =>{
       this.toastr.error('No se pudo cargar el cuestionario', 'Error');
       this.loading=false;
+      console.log(error);
     })
   }
 
@@ -79,13 +85,39 @@ export class PreguntaComponent implements OnInit, OnDestroy {
 
     this._respuestaCuestionarioService.respuestas.push(this.idRespuestaSeleccionada);
 
+    const detalleRespuesta: RespuestaCuestionarioDetalle = {
+      respuestaId: this.idRespuestaSeleccionada
+    };
+
+    this.listRespuestaDetalle.push(detalleRespuesta);
+
     this.rtaConfirmada = false;
     this.index++;
     this.idRespuestaSeleccionada = null;
 
     if(this.index === this.listPreguntas.length){
-      this.router.navigate(['/inicio/respuestaCuestionario']);
+      this.guardarRespuestaCuestionario();
+      this.router
     }
+  }
+
+  guardarRespuestaCuestionario(): void{
+
+    this.loading = true;
+
+    const rtaCuestionario: RespuestaCuestionario = {
+      cuestionarioId: this._respuestaCuestionarioService.idCuestionario,
+      nombreParticipante: this._respuestaCuestionarioService.nombreParticipante,
+      listRtaCuestionarioDetalle: this.listRespuestaDetalle
+    };
+
+    this.subscriptionEnviarRespuestas = this._respuestaCuestionarioService.guardarRespuestaCuestionario(rtaCuestionario).subscribe(data =>{
+      this.router.navigate(['/inicio/respuestaCuestionario']);
+    },error=>{
+      this.loading = false;
+      this.toastr.error('No se pudo enviar las respuestas', 'Error');
+      console.log(error);
+    });
   }
 
 }
